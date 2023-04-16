@@ -1,6 +1,6 @@
 import express from "express";
 
-const port = 8080;
+const port = 4000;
 const app = express();
 
 const posts = {};
@@ -10,5 +10,6 @@ app.get("/posts", (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`Listening on port ${port}`);
+  console.log(`Buyer service listening on port ${port}`);
+  console.log('V4');
 });

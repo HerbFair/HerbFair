@@ -10,5 +10,5 @@ RUN pnpm fetch --prod
 ADD . ./
 RUN pnpm install --prod
 
-EXPOSE 8080
+EXPOSE 4000
 CMD [ "node", "index.js" ]
