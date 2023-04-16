@@ -11,4 +11,4 @@ ADD . ./
 RUN pnpm install --prod
 
 EXPOSE 4000
-CMD [ "node", "index.js" ]
+CMD [ "pnpm", "start" ]
