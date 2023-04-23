@@ -16,9 +16,9 @@
 ### 5. Run the following command in the main directory
 ```skaffold dev```
 
-## if you want to contribute
+## If you want to contribute
 
-### 1. create a new branch based on the staging branch following the branch naming conventions
+### 1. Create a new branch based on the staging branch following the branch naming conventions
 ``` git checkout -b <branch name>```
 
 ### 2. Make the changes to the code
