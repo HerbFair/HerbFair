@@ -3,7 +3,9 @@
 ## Clone the repository
 ```git clone https://github.com/HerbFair/HerbFair.git```
 
-## Install docker and kubernetes
+## Install docker and kubernetes (You can enable k8s through docker desktop or install it through minikube)
+[docker](https://www.docker.com/get-started/)
+[minikube](https://minikube.sigs.k8s.io/docs/start/)
 
 ## Install skaffold
 [skaffold.dev](https://skaffold.dev/docs/install/)
