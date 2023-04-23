@@ -8,9 +8,9 @@
 ## Install skaffold
 [skaffold.dev](https://skaffold.dev/docs/install/)
 
-# Start docker and kubernets in your system
+## Start docker and kubernets in your system
 
-# Run the following command in the main directory
+## Run the following command in the main directory
 ```skaffold dev```
 
 ### if you want to contribute
