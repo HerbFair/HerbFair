@@ -1,0 +1,24 @@
+apiVersion: skaffold/v4beta4
+kind: Config
+metadata:
+  name: herbfairwebbe
+build:
+  artifacts:
+    - image: docker.io/thulina/herb-fair-buyer
+      context: BuyerService
+      docker:
+        dockerfile: Dockerfile
+    - image: docker.io/thulina/herb-fair-client
+      context: web-client
+      docker:
+        dockerfile: Dockerfile
+    - image: docker.io/thulina/herb-fair-inventory
+      context: InventoryService
+      docker:
+        dockerfile: Dockerfile
+manifests:
+  rawYaml:
+    - Infrastructure/k8s/buyer-depl.yaml
+    - Infrastructure/k8s/client-depl.yaml
+    - Infrastructure/k8s/ingress-srv.yaml
+    - Infrastructure/k8s/inventory-depl.yaml
