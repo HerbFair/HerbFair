@@ -1,14 +1,25 @@
-FROM node:18-alpine
+FROM node:16-alpine as builder
 
-RUN npm install --global pnpm
+WORKDIR /usr/app
 
-# pnpm fetch does require only lockfile
-COPY pnpm-lock.yaml ./
+COPY package.json esbuild.config.js pnpm-lock.yaml ./
+COPY src ./src
 
-RUN pnpm fetch --prod
+RUN npm install -g pnpm && \
+    pnpm install --production --ignore-scripts && \
+    pnpm build
 
-ADD . ./
-RUN pnpm install --prod
+FROM node:16-alpine
 
-EXPOSE 4000
-CMD [ "pnpm", "start" ]
+WORKDIR /usr/app
+
+COPY package.json migrate-mongo-config.js ./
+COPY database/mongo/migrations migration_scripts
+COPY --from=builder /usr/app/dist dist
+COPY --from=builder /usr/app/node_modules node_modules
+
+RUN sed -i 's/src\/database\/mongo\/migrations/migration_scripts/g' migrate-mongo-config.js
+
+EXPOSE 8080
+
+CMD node dist/index.js --enable-source-maps
