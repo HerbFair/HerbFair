@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: buyer-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app:  buyer
+  template:
+    metadata:
+      labels:
+        app: buyer
+    spec:
+      containers:
+        - name: buyer
+          image: docker.io/thulina/herb-fair-buyer:latest
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: buyer-clusterip-srv
+spec:
+  selector:
+    app: buyer-srv
+  type: ClusterIP
+  ports:
+    - name: buyer-srv
+      protocol: TCP
+      port: 4000
+      targetPort: 4000
+    

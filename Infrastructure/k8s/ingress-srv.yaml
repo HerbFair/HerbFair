@@ -1,0 +1,33 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-srv
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingres.kubernetes.io/use-regex: 'true'
+spec:
+  rules:
+    - host: buyer.com
+      http:
+        paths:
+          - path: /buyer
+            pathType: Prefix
+            backend:
+              service:
+                name: buyer-clusterip-srv
+                port:
+                  number: 4000
+          - path: /buyer/?(.*)/status
+            pathType: Prefix
+            backend:
+              service:
+                name: buyer-clusterip-srv
+                port:
+                  number: 4000
+          - path: /inventory
+            pathType: Prefix
+            backend:
+              service:
+                name: inventory-clusterip-srv
+                port:
+                  number: 4001
