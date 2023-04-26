@@ -3,10 +3,6 @@ import mongoosePaginate from 'mongoose-paginate-v2';
 
 const CartItemSchema = new mongoose.Schema(
   {
-    cartItemId: {
-      type: String,
-      required: true,
-    },
     name: {
       type: String,
       required: true,
@@ -30,7 +26,6 @@ const CartItemSchema = new mongoose.Schema(
   },
   {
     versionKey: true,
-    timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },
   },
 );
 
@@ -38,7 +33,7 @@ CartItemSchema.plugin(mongoosePaginate);
 
 CartItemSchema.index({ createdAt: 1 });
 
-const CartItem = mongoose.model('Question', CartItemSchema);
+const CartItem = mongoose.model('CartItem', CartItemSchema);
 
 CartItem.syncIndexes();
 

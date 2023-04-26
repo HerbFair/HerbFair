@@ -3,34 +3,17 @@ import mongoosePaginate from 'mongoose-paginate-v2';
 
 const CartSchema = new mongoose.Schema(
   {
-    cartItemId: {
-      type: String,
-      required: true,
+    buyerId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Buyer',
     },
-    name: {
-      type: String,
-      required: true,
-    },
-    description: {
-      type: String,
-      required: true,
-    },
-    price: {
-      type: Number,
-      required: true,
-    },
-    count: {
-      type: String,
-      required: true,
-    },
-    cartId: {
-      type: String,
-      required: true,
+    items: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'CartItem',
     },
   },
   {
     versionKey: true,
-    timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },
   },
 );
 
@@ -38,7 +21,7 @@ CartSchema.plugin(mongoosePaginate);
 
 CartSchema.index({ createdAt: 1 });
 
-const Cart = mongoose.model('Question', CartSchema);
+const Cart = mongoose.model('Cart', CartSchema);
 
 Cart.syncIndexes();
 

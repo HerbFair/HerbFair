@@ -26,11 +26,11 @@
     ],
     "arrow-spacing": "error",
     "camelcase": [
-      "error"
+      "warn"
     ],
     "default-case": "error",
     "newline-per-chained-call": [
-      "error",
+      "warn",
       {
         "ignoreChainWithDepth": 2
       }
@@ -57,7 +57,7 @@
       "error"
     ],
     "no-return-assign": "error",
-    "no-return-await": "error",
+    "no-return-await": "warn",
     "no-self-compare": "error",
     "no-template-curly-in-string": "warn",
     "no-useless-concat": "error",
@@ -67,7 +67,7 @@
     "prefer-const": "error",
     "prefer-promise-reject-errors": "error",
     "prefer-template": "error",
-    "require-await": "error",
+    "require-await": "warn",
     "spaced-comment": "error",
     "symbol-description": "error",
     "object-curly-spacing": [
@@ -75,7 +75,7 @@
       "always"
     ],
     "prettier/prettier": [
-      "error",
+      "warn",
       {
         "printWidth": 180,
         "tabWidth": 2,
