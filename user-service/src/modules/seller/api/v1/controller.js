@@ -3,18 +3,18 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { tracedAsyncHandler } from '@sliit-foss/functions';
 import { toSuccess, toError } from '../../../../utils';
-import SellerRepository from './repositary/seller.repositary';
+import SellerRepository from './repository/seller.repository';
 
-const system = express.Router();
+const seller = express.Router();
 
-system.get(
+seller.get(
   '/health',
   tracedAsyncHandler(function healthCheck(_req, res) {
     return toSuccess({ res, message: 'Server up and running!' });
   }),
 );
 
-system.get(
+seller.get(
   '/',
   tracedAsyncHandler(async function getAllSellers(req, res) {
     await SellerRepository.getAllSellers()
@@ -27,7 +27,7 @@ system.get(
   }),
 );
 
-system.get(
+seller.get(
   '/:id',
   tracedAsyncHandler(async function getSellerById(req, res) {
     await SellerRepository.getSellerById(req.params.id)
@@ -40,7 +40,7 @@ system.get(
   }),
 );
 
-system.post(
+seller.post(
   '/',
   tracedAsyncHandler(async function createSeller(req, res) {
     const salt = await bcrypt.genSalt(10);
@@ -70,7 +70,7 @@ system.post(
   }),
 );
 
-system.put(
+seller.put(
   '/:id',
   tracedAsyncHandler(async function updateSeller(req, res) {
     await SellerRepository.updateSeller(req.params.id, req.body)
@@ -83,7 +83,7 @@ system.put(
   }),
 );
 
-system.delete(
+seller.delete(
   '/:id',
   tracedAsyncHandler(async function deleteSeller(req, res) {
     await SellerRepository.deleteSeller(req.params.id)
@@ -96,7 +96,7 @@ system.delete(
   }),
 );
 
-system.post(
+seller.post(
   '/login',
   tracedAsyncHandler(async function loginSeller(req, res) {
     await SellerRepository.getSellerByEmail(req.body.email)
@@ -140,7 +140,7 @@ system.post(
   }),
 );
 
-system.post(
+seller.post(
   '/refresh',
   tracedAsyncHandler(function refreshToken(req, res) {
     const refreshToken = req.body.refreshToken;
@@ -170,4 +170,4 @@ system.post(
   }),
 );
 
-export default system;
+export default seller;
