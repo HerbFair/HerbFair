@@ -32,7 +32,7 @@ clusterize(
       next();
     });
 
-    app.use(`/api/user-service`, rateLimiter, routes);
+    app.use(`/api/order`, rateLimiter, routes);
 
     app.use(responseInterceptor);
 

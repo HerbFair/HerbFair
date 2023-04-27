@@ -7,10 +7,9 @@ import context from 'express-http-context';
 import clusterize from '@sliit-foss/clusterizer';
 import { moduleLogger } from '@sliit-foss/module-logger';
 import { correlationId } from './utils';
-import { defaultLimiter as rateLimiter, errorHandler, responseInterceptor } from './middleware';
+import { errorHandler, responseInterceptor } from './middleware';
 import config from './config';
 import routes from './routes';
-import { connectDatabase } from './database/mongo';
 
 const logger = moduleLogger('Server');
 
@@ -32,14 +31,13 @@ clusterize(
       next();
     });
 
-    app.use(`/api/user-service`, rateLimiter, routes);
+    app.use(`/api/service-name`, routes);
 
     app.use(responseInterceptor);
 
     app.use(errorHandler);
 
     app.listen(config.PORT, config.HOST, () => {
-      connectDatabase();
       logger.info(`Service listening on ${config.HOST}:${config.PORT}`);
     });
   },

@@ -5,7 +5,7 @@ metadata:
 build:
   artifacts:
     - image: docker.io/thulina/herb-fair-buyer
-      context: BuyerService
+      context: buyer-service
       docker:
         dockerfile: Dockerfile
     - image: docker.io/thulina/herb-fair-client
