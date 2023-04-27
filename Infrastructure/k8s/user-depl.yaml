@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app:  user
+  template:
+    metadata:
+      labels:
+        app: user
+    spec:
+      containers:
+        - name: user
+          image: docker.io/thulina/herb-fair-user:latest
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-clusterip-srv
+spec:
+  selector:
+    app: user-srv
+  type: ClusterIP
+  ports:
+    - name: user-srv
+      protocol: TCP
+      port: 4000
+      targetPort: 4000
+    

@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: admin-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app:  admin
+  template:
+    metadata:
+      labels:
+        app: admin
+    spec:
+      containers:
+        - name: admin
+          image: docker.io/thulina/herb-fair-admin:latest
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: admin-clusterip-srv
+spec:
+  selector:
+    app: admin-srv
+  type: ClusterIP
+  ports:
+    - name: admin-srv
+      protocol: TCP
+      port: 4000
+      targetPort: 4000
+    
