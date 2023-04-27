@@ -89,35 +89,4 @@ system.delete(
   }),
 );
 
-
-// system.post(
-//   '/refresh',
-//   tracedAsyncHandler(function refreshToken(req, res) {
-//     const refreshToken = req.body.refreshToken;
-//     if (!refreshToken) {
-//       return toError({ res, message: 'Refresh token is required' });
-//     }
-//     jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, seller) => {
-//       if (err) {
-//         return toError({ res, message: 'Invalid refresh token' });
-//       }
-//       const acessToken = jwt.sign(
-//         {
-//           id: seller.id,
-//           email: seller.email,
-//           role: 'seller',
-//         },
-//         process.env.ACCESS_TOKEN_SECRET,
-//         {
-//           expiresIn: '1d',
-//         },
-//       );
-//       const response = {
-//         accessToken: acessToken,
-//       };
-//       return toSuccess({ res, data: response });
-//     });
-//   }),
-// );
-
 export default system;
