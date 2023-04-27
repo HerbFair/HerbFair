@@ -1,21 +1,16 @@
 import mongoose from 'mongoose';
 import mongoosePaginate from 'mongoose-paginate-v2';
 
-const CartSchema = new mongoose.Schema(
-  {
-    buyerId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Buyer',
-    },
-    items: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'CartItem',
-    },
+const CartSchema = new mongoose.Schema({
+  buyerId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Buyer',
   },
-  {
-    versionKey: true,
+  items: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'CartItem',
   },
-);
+});
 
 CartSchema.plugin(mongoosePaginate);
 

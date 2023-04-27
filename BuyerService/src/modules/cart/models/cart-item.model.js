@@ -1,33 +1,28 @@
 import mongoose from 'mongoose';
 import mongoosePaginate from 'mongoose-paginate-v2';
 
-const CartItemSchema = new mongoose.Schema(
-  {
-    name: {
-      type: String,
-      required: true,
-    },
-    description: {
-      type: String,
-      required: true,
-    },
-    price: {
-      type: Number,
-      required: true,
-    },
-    count: {
-      type: String,
-      required: true,
-    },
-    cartId: {
-      type: String,
-      required: true,
-    },
+const CartItemSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
   },
-  {
-    versionKey: true,
+  description: {
+    type: String,
+    required: true,
   },
-);
+  price: {
+    type: Number,
+    required: true,
+  },
+  count: {
+    type: String,
+    required: true,
+  },
+  cartId: {
+    type: String,
+    required: true,
+  },
+});
 
 CartItemSchema.plugin(mongoosePaginate);
 
