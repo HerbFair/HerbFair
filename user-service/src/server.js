@@ -10,7 +10,7 @@ import { correlationId } from './utils';
 import { defaultLimiter as rateLimiter, errorHandler, responseInterceptor } from './middleware';
 import config from './config';
 import routes from './routes';
-import connectDatabase from './database/mongo';
+import { connectDatabase } from './database/mongo';
 
 const logger = moduleLogger('Server');
 

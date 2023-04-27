@@ -12,6 +12,7 @@ import { defaultLimiter as rateLimiter, errorHandler, responseInterceptor } from
 import { default as translations } from './locales';
 import config from './config';
 import routes from './routes';
+import { connectDatabase } from './database/mongo';
 
 const logger = moduleLogger('Server');
 
@@ -44,13 +45,14 @@ clusterize(
       next();
     });
 
-    app.use(`/api/service-name`, rateLimiter, routes);
+    app.use(`/api/inventory`, rateLimiter, routes);
 
     app.use(responseInterceptor);
 
     app.use(errorHandler);
 
     app.listen(config.PORT, config.HOST, () => {
+      connectDatabase();
       logger.info(`Service listening on ${config.HOST}:${config.PORT}`);
     });
   },
