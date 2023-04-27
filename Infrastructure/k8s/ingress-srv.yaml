@@ -7,27 +7,69 @@ metadata:
     nginx.ingres.kubernetes.io/use-regex: 'true'
 spec:
   rules:
-    - host: buyer.com
+    - host: herb-fair-be.com
       http:
         paths:
-          - path: /buyer
-            pathType: Prefix
-            backend:
-              service:
-                name: buyer-clusterip-srv
-                port:
-                  number: 4000
-          - path: /buyer/?(.*)/status
-            pathType: Prefix
-            backend:
-              service:
-                name: buyer-clusterip-srv
-                port:
-                  number: 4000
-          - path: /inventory
+          - path: /inventory/[A-Za-z0-9\/]*
             pathType: Prefix
             backend:
               service:
                 name: inventory-clusterip-srv
                 port:
+                  number: 4000
+          - path: /order/[A-Za-z0-9\/]*
+            pathType: Prefix
+            backend:
+              service:
+                name: order-clusterip-srv
+                port:
                   number: 4001
+          - path: /payment/[A-Za-z0-9\/]*
+            pathType: Prefix
+            backend:
+              service:
+                name: payment-clusterip-srv
+                port:
+                  number: 4002
+          - path: /delivery/[A-Za-z0-9\/]*
+            pathType: Prefix
+            backend:
+              service:
+                name: delivery-clusterip-srv
+                port:
+                  number: 4003
+          - path: /seller/[A-Za-z0-9\/]*
+            pathType: Prefix
+            backend:
+              service:
+                name: seller-clusterip-srv
+                port:
+                  number: 4004           
+          - path: /buyer/[A-Za-z0-9\/]*
+            pathType: Prefix
+            backend:
+              service:
+                name: buyer-clusterip-srv
+                port:
+                  number: 4005
+          - path: /review/[A-Za-z0-9\/]*
+            pathType: Prefix
+            backend:
+              service:
+                name: review-clusterip-srv
+                port:
+                  number: 4006   
+          - path: /admin/[A-Za-z0-9\/]*
+            pathType: Prefix
+            backend:
+              service:
+                name: admin-clusterip-srv
+                port:
+                  number: 4007
+          - path: /user/[A-Za-z0-9\/]*
+            pathType: Prefix
+            backend:
+              service:
+                name: user-clusterip-srv
+                port:
+                  number: 4008                                    
