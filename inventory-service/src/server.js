@@ -4,10 +4,12 @@ import compression from 'compression';
 import helmet from 'helmet';
 import cors from 'cors';
 import context from 'express-http-context';
+import polyglot from 'node-polyglot';
 import clusterize from '@sliit-foss/clusterizer';
 import { moduleLogger } from '@sliit-foss/module-logger';
 import { correlationId } from './utils';
 import { defaultLimiter as rateLimiter, errorHandler, responseInterceptor } from './middleware';
+import { default as translations } from './locales';
 import config from './config';
 import routes from './routes';
 import { connectDatabase } from './database/mongo';
@@ -32,7 +34,18 @@ clusterize(
       next();
     });
 
-    app.use(`/api/user-service`, rateLimiter, routes);
+    app.use((req, res, next) => {
+      const locale = req.headers['accept-language'] ?? 'en';
+      res.polyglot = new polyglot({
+        allowMissing: true,
+        onMissingKey: (key) => key,
+      });
+      if (translations[locale]) res.polyglot.extend(translations[locale]);
+      context.set('locale', locale) && context.set('translate', res.polyglot.t);
+      next();
+    });
+
+    app.use(`/api/inventory`, rateLimiter, routes);
 
     app.use(responseInterceptor);
 
