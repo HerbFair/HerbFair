@@ -3,21 +3,21 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { tracedAsyncHandler } from '@sliit-foss/functions';
 import { toSuccess, toError } from '../../../../utils';
-import SellerRepository from './repository/seller.repository';
+import AdminRepository from './repository/admin.repository';
 
-const seller = express.Router();
+const admin = express.Router();
 
-seller.get(
+admin.get(
   '/health',
   tracedAsyncHandler(function healthCheck(_req, res) {
     return toSuccess({ res, message: 'Server up and running!' });
   }),
 );
 
-seller.get(
+admin.get(
   '/',
-  tracedAsyncHandler(async function getAllSellers(req, res) {
-    await SellerRepository.getAllSellers()
+  tracedAsyncHandler(async function getAllAdmins(req, res) {
+    await AdminRepository.getAllAdmins()
       .then((data) => {
         return toSuccess({ res, data });
       })
@@ -27,10 +27,10 @@ seller.get(
   }),
 );
 
-seller.get(
+admin.get(
   '/:id',
-  tracedAsyncHandler(async function getSellerById(req, res) {
-    await SellerRepository.getSellerById(req.params.id)
+  tracedAsyncHandler(async function getAdminById(req, res) {
+    await AdminRepository.getAdminById(req.params.id)
       .then((data) => {
         return toSuccess({ res, data });
       })
@@ -40,27 +40,21 @@ seller.get(
   }),
 );
 
-seller.post(
+admin.post(
   '/',
-  tracedAsyncHandler(async function createSeller(req, res) {
+  tracedAsyncHandler(async function createAdmin(req, res) {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
 
-    const seller = {
+    const admin = {
       firstName: req.body.firstName,
       lastName: req.body.lastName,
       email: req.body.email,
       password: hashedPassword,
-      addressLine1: req.body.addressLine1,
-      addressLine2: req.body.addressLine2,
-      city: req.body.city,
-      stateOrProvince: req.body.stateOrProvince,
-      postalCode: req.body.postalCode,
-      country: req.body.country,
       phoneNumber: req.body.phoneNumber,
     };
 
-    await SellerRepository.createSeller(seller)
+    await AdminRepository.createAdmin(admin)
       .then((data) => {
         return toSuccess({ res, data });
       })
@@ -70,10 +64,10 @@ seller.post(
   }),
 );
 
-seller.put(
+admin.put(
   '/:id',
-  tracedAsyncHandler(async function updateSeller(req, res) {
-    await SellerRepository.updateSeller(req.params.id, req.body)
+  tracedAsyncHandler(async function updateAdmin(req, res) {
+    await AdminRepository.updateAdmin(req.params.id, req.body)
       .then((data) => {
         return toSuccess({ res, data });
       })
@@ -83,12 +77,12 @@ seller.put(
   }),
 );
 
-seller.delete(
+admin.delete(
   '/:id',
-  tracedAsyncHandler(async function deleteSeller(req, res) {
-    await SellerRepository.deleteSeller(req.params.id)
+  tracedAsyncHandler(async function deleteAdmin(req, res) {
+    await AdminRepository.deleteAdmin(req.params.id)
       .then(() => {
-        return toSuccess({ res, message: 'Seller deleted successfully' });
+        return toSuccess({ res, message: 'Admin deleted successfully' });
       })
       .catch((err) => {
         return toError({ res, message: err.message });
@@ -96,10 +90,10 @@ seller.delete(
   }),
 );
 
-seller.post(
+admin.post(
   '/login',
-  tracedAsyncHandler(async function loginSeller(req, res) {
-    await SellerRepository.getSellerByEmail(req.body.email)
+  tracedAsyncHandler(async function loginAdmin(req, res) {
+    await AdminRepository.getAdminByEmail(req.body.email)
       .then(async (data) => {
         if (!data) {
           return toError({ res, message: 'Invalid email or password' });
@@ -112,7 +106,7 @@ seller.post(
           {
             id: data._id,
             email: data.email,
-            role: 'seller',
+            role: 'admin',
           },
           process.env.ACCESS_TOKEN_SECRET,
           {
@@ -123,7 +117,7 @@ seller.post(
           {
             id: data._id,
             email: data.email,
-            role: 'seller',
+            role: 'admin',
           },
           process.env.REFRESH_TOKEN_SECRET,
         );
@@ -140,22 +134,22 @@ seller.post(
   }),
 );
 
-seller.post(
+admin.post(
   '/refresh',
   tracedAsyncHandler(function refreshToken(req, res) {
     const refreshToken = req.body.refreshToken;
     if (!refreshToken) {
       return toError({ res, message: 'Refresh token is required' });
     }
-    jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, seller) => {
+    jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, admin) => {
       if (err) {
         return toError({ res, message: 'Invalid refresh token' });
       }
       const acessToken = jwt.sign(
         {
-          id: seller.id,
-          email: seller.email,
-          role: 'seller',
+          id: admin.id,
+          email: admin.email,
+          role: 'admin',
         },
         process.env.ACCESS_TOKEN_SECRET,
         {
@@ -170,4 +164,4 @@ seller.post(
   }),
 );
 
-export default seller;
+export default admin;

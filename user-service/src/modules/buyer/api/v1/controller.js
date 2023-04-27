@@ -3,21 +3,21 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { tracedAsyncHandler } from '@sliit-foss/functions';
 import { toSuccess, toError } from '../../../../utils';
-import SellerRepository from './repository/seller.repository';
+import BuyerRepository from './repository/buyer.repository';
 
-const seller = express.Router();
+const buyer = express.Router();
 
-seller.get(
+buyer.get(
   '/health',
   tracedAsyncHandler(function healthCheck(_req, res) {
     return toSuccess({ res, message: 'Server up and running!' });
   }),
 );
 
-seller.get(
+buyer.get(
   '/',
-  tracedAsyncHandler(async function getAllSellers(req, res) {
-    await SellerRepository.getAllSellers()
+  tracedAsyncHandler(async function getAllBuyers(req, res) {
+    await BuyerRepository.getAllBuyers()
       .then((data) => {
         return toSuccess({ res, data });
       })
@@ -27,10 +27,10 @@ seller.get(
   }),
 );
 
-seller.get(
+buyer.get(
   '/:id',
-  tracedAsyncHandler(async function getSellerById(req, res) {
-    await SellerRepository.getSellerById(req.params.id)
+  tracedAsyncHandler(async function getBuyerById(req, res) {
+    await BuyerRepository.getBuyerById(req.params.id)
       .then((data) => {
         return toSuccess({ res, data });
       })
@@ -40,13 +40,13 @@ seller.get(
   }),
 );
 
-seller.post(
+buyer.post(
   '/',
-  tracedAsyncHandler(async function createSeller(req, res) {
+  tracedAsyncHandler(async function createBuyer(req, res) {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
 
-    const seller = {
+    const buyer = {
       firstName: req.body.firstName,
       lastName: req.body.lastName,
       email: req.body.email,
@@ -60,7 +60,7 @@ seller.post(
       phoneNumber: req.body.phoneNumber,
     };
 
-    await SellerRepository.createSeller(seller)
+    await BuyerRepository.createBuyer(buyer)
       .then((data) => {
         return toSuccess({ res, data });
       })
@@ -70,10 +70,10 @@ seller.post(
   }),
 );
 
-seller.put(
+buyer.put(
   '/:id',
-  tracedAsyncHandler(async function updateSeller(req, res) {
-    await SellerRepository.updateSeller(req.params.id, req.body)
+  tracedAsyncHandler(async function updateBuyer(req, res) {
+    await BuyerRepository.updateBuyer(req.params.id, req.body)
       .then((data) => {
         return toSuccess({ res, data });
       })
@@ -83,12 +83,12 @@ seller.put(
   }),
 );
 
-seller.delete(
+buyer.delete(
   '/:id',
-  tracedAsyncHandler(async function deleteSeller(req, res) {
-    await SellerRepository.deleteSeller(req.params.id)
+  tracedAsyncHandler(async function deleteBuyer(req, res) {
+    await BuyerRepository.deleteBuyer(req.params.id)
       .then(() => {
-        return toSuccess({ res, message: 'Seller deleted successfully' });
+        return toSuccess({ res, message: 'Buyer deleted successfully' });
       })
       .catch((err) => {
         return toError({ res, message: err.message });
@@ -96,10 +96,10 @@ seller.delete(
   }),
 );
 
-seller.post(
+buyer.post(
   '/login',
-  tracedAsyncHandler(async function loginSeller(req, res) {
-    await SellerRepository.getSellerByEmail(req.body.email)
+  tracedAsyncHandler(async function loginBuyer(req, res) {
+    await BuyerRepository.getBuyerByEmail(req.body.email)
       .then(async (data) => {
         if (!data) {
           return toError({ res, message: 'Invalid email or password' });
@@ -112,7 +112,7 @@ seller.post(
           {
             id: data._id,
             email: data.email,
-            role: 'seller',
+            role: 'buyer',
           },
           process.env.ACCESS_TOKEN_SECRET,
           {
@@ -123,7 +123,7 @@ seller.post(
           {
             id: data._id,
             email: data.email,
-            role: 'seller',
+            role: 'buyer',
           },
           process.env.REFRESH_TOKEN_SECRET,
         );
@@ -140,22 +140,22 @@ seller.post(
   }),
 );
 
-seller.post(
+buyer.post(
   '/refresh',
   tracedAsyncHandler(function refreshToken(req, res) {
     const refreshToken = req.body.refreshToken;
     if (!refreshToken) {
       return toError({ res, message: 'Refresh token is required' });
     }
-    jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, seller) => {
+    jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, buyer) => {
       if (err) {
         return toError({ res, message: 'Invalid refresh token' });
       }
       const acessToken = jwt.sign(
         {
-          id: seller.id,
-          email: seller.email,
-          role: 'seller',
+          id: buyer.id,
+          email: buyer.email,
+          role: 'buyer',
         },
         process.env.ACCESS_TOKEN_SECRET,
         {
@@ -170,4 +170,4 @@ seller.post(
   }),
 );
 
-export default seller;
+export default buyer;
