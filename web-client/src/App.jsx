@@ -1,14 +1,14 @@
+import { BrowserRouter } from "react-router-dom";
 import "./App.css";
-import { CakeView } from "./features/cake/CakeView";
-import { IceCreamView } from "./features/ice-cream/IceCreamView";
-import { UserView } from "./features/user/UserView";
+import MainRoutes from "./routes/MainRoutes";
+
 
 function App() {
   return (
-    <div>
-      <CakeView />
-      <IceCreamView />
-      <UserView />
+    <div className="App">
+      <BrowserRouter>
+        <MainRoutes />
+      </BrowserRouter>
     </div>
   );
 }
