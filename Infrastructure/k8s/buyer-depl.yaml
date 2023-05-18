@@ -27,6 +27,6 @@ spec:
   ports:
     - name: buyer-srv
       protocol: TCP
-      port: 4000
-      targetPort: 4000
+      port: 4005
+      targetPort: 4005
     
