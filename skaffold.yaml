@@ -1,7 +1,7 @@
-apiVersion: skaffold/v4beta4
+apiVersion: skaffold/v4beta5
 kind: Config
 metadata:
-  name: herbfairwebbe
+  name: herbfair
 build:
   artifacts:
     - image: docker.io/thulina/herb-fair-buyer
@@ -20,10 +20,10 @@ build:
       context: payment-service
       docker:
         dockerfile: Dockerfile
-    - image: docker.io/thulina/herb-fair-review
-      context: review-service
-      docker:
-        dockerfile: Dockerfile
+    # - image: docker.io/thulina/herb-fair-review
+    #   context: review-service
+    #   docker:
+    #     dockerfile: Dockerfile
     - image: docker.io/thulina/herb-fair-user
       context: user-service
       docker:
@@ -32,23 +32,22 @@ build:
       context: order-service
       docker:
         dockerfile: Dockerfile
-    - image: docker.io/thulina/herb-fair-seller
-      context: seller-service
-      docker:
-        dockerfile: Dockerfile
-    - image: docker.io/thulina/herb-fair-admin
-      context: admin-service
-      docker:
-        dockerfile: Dockerfile
+    # - image: docker.io/thulina/herb-fair-seller
+    #   context: seller-service
+    #   docker:
+    #     dockerfile: Dockerfile
+    # - image: docker.io/thulina/herb-fair-admin
+    #   context: admin-service
+    #   docker:
+    #     dockerfile: Dockerfile
 manifests:
   rawYaml:
+    # - Infrastructure/k8s/admin-depl.yaml
     - Infrastructure/k8s/buyer-depl.yaml
     - Infrastructure/k8s/client-depl.yaml
     - Infrastructure/k8s/ingress-srv.yaml
     - Infrastructure/k8s/inventory-depl.yaml
-    - Infrastructure/k8s/payment-depl.yaml
-    - Infrastructure/k8s/review-depl.yaml
-    - Infrastructure/k8s/user-depl.yaml
     - Infrastructure/k8s/order-depl.yaml
-    - Infrastructure/k8s/seller-depl.yaml
-    - Infrastructure/k8s/admin-depl.yaml
+    - Infrastructure/k8s/payment-depl.yaml
+    # - Infrastructure/k8s/seller-depl.yaml
+    - Infrastructure/k8s/user-depl.yaml

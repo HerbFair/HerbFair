@@ -27,6 +27,6 @@ spec:
   ports:
     - name: user-srv
       protocol: TCP
-      port: 4000
-      targetPort: 4000
+      port: 4008
+      targetPort: 4008
     

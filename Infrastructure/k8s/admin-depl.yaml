@@ -27,6 +27,6 @@ spec:
   ports:
     - name: admin-srv
       protocol: TCP
-      port: 4000
-      targetPort: 4000
+      port: 4007
+      targetPort: 4007
     

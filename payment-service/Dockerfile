@@ -17,6 +17,6 @@ COPY package.json ./
 COPY --from=builder /usr/app/dist dist
 COPY --from=builder /usr/app/node_modules node_modules
 
-EXPOSE 4005
+EXPOSE 4002
 
 CMD node dist/server.js --enable-source-maps
