@@ -1,31 +1,31 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: payment-depl
+  name: delivery-depl
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app:  payment
+      app:  delivery
   template:
     metadata:
       labels:
-        app: payment
+        app: delivery
     spec:
       containers:
-        - name: payment
-          image: docker.io/thulina/herb-fair-payment:latest
+        - name: delivery
+          image: docker.io/thulina/herb-fair-delivery:latest
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: payment-clusterip-srv
+  name: delivery-clusterip-srv
 spec:
   selector:
-    app: payment-srv
+    app: delivery-srv
   type: ClusterIP
   ports:
-    - name: payment-srv
+    - name: delivery-srv
       protocol: TCP
-      port: 4002
-      targetPort: 4002
+      port: 4003
+      targetPort: 4003
