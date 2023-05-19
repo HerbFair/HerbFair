@@ -10,6 +10,7 @@ import { correlationId } from './utils';
 import { errorHandler, responseInterceptor } from './middleware';
 import config from './config';
 import routes from './routes';
+import { connectDatabase } from './database/mongo';
 
 const logger = moduleLogger('Server');
 
@@ -38,6 +39,7 @@ clusterize(
     app.use(errorHandler);
 
     app.listen(config.PORT, config.HOST, () => {
+      connectDatabase();
       logger.info(`Service listening on ${config.HOST}:${config.PORT}`);
     });
   },
