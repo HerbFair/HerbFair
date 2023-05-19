@@ -32,7 +32,7 @@ clusterize(
       next();
     });
 
-    app.use(`/api/service-name`, routes);
+    app.use(`/api/buyer`, routes);
 
     app.use(responseInterceptor);
 
