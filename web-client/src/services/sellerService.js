@@ -1,5 +1,5 @@
 import axios from "axios";
-const BASE_URL = "http://localhost:8090/api/user-service/v1";
+const BASE_URL = "http://localhost:4008/api/user-service/v1";
 
 class SellerService {
   //Seller Login
