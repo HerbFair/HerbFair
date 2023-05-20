@@ -14,6 +14,8 @@ import { connectDatabase } from './database/mongo';
 
 const logger = moduleLogger('Server');
 
+connectDatabase();
+
 clusterize(
   () => {
     const app = express();
@@ -39,7 +41,6 @@ clusterize(
     app.use(errorHandler);
 
     app.listen(config.PORT, config.HOST, () => {
-      connectDatabase();
       logger.info(`Service listening on ${config.HOST}:${config.PORT}`);
     });
   },

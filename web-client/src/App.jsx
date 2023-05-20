@@ -1,16 +1,19 @@
-import { BrowserRouter } from "react-router-dom";
+import { MantineProvider } from "@mantine/core";
+import { ModalsProvider } from "@mantine/modals";
+import { Notifications } from "@mantine/notifications";
 import "./App.css";
 import MainRoutes from "./routes/MainRoutes";
-import { NavBar } from "./components";
 
 function App() {
   return (
-    <div className="App">
-      <BrowserRouter>
-        <NavBar />
-        <MainRoutes />
-      </BrowserRouter>
-    </div>
+    <MantineProvider>
+      <Notifications />
+      <ModalsProvider>
+        <div className="App">
+          <MainRoutes />
+        </div>
+      </ModalsProvider>
+    </MantineProvider>
   );
 }
 
