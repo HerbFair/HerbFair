@@ -25,9 +25,6 @@ const getSellerById = async (id) => {
 const getSellerByEmail = async (email) => {
   try {
     const data = await Seller.findOne({ email: email });
-    if (!data) {
-      throw new Error('Seller not found');
-    }
     return data;
   } catch (err) {
     throw new Error(err.message);
@@ -70,6 +67,17 @@ const getAllSellers = async () => {
   }
 };
 
+const getLastInsertedSeller = async () => {
+  try {
+    const data = await Seller.findOne()
+      .sort({ _id: -1 })
+      .limit(1);
+    return data;
+  } catch (err) {
+    throw new Error(err.message);
+  }
+};
+
 const SellerRepository = {
   createSeller,
   getSellerById,
@@ -77,6 +85,7 @@ const SellerRepository = {
   updateSeller,
   deleteSeller,
   getAllSellers,
+  getLastInsertedSeller,
 };
 
 export default SellerRepository;
