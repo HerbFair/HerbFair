@@ -27,6 +27,6 @@ spec:
   ports:
     - name: seller-srv
       protocol: TCP
-      port: 4000
-      targetPort: 4000
+      port: 4004
+      targetPort: 4004
     
