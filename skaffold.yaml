@@ -1,4 +1,4 @@
-apiVersion: skaffold/v4beta4
+apiVersion: skaffold/v4beta5
 kind: Config
 metadata:
   name: herbfair
@@ -40,6 +40,8 @@ build:
     #   context: admin-service
     #   docker:
     #     dockerfile: Dockerfile
+  local:
+    push: true
 manifests:
   rawYaml:
     # - Infrastructure/k8s/admin-depl.yaml

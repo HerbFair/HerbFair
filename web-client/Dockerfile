@@ -2,22 +2,25 @@ FROM node:18-alpine as builder
 
 WORKDIR /app
 
-COPY package.json vite.config.js ./
-COPY pnpm-lock.yaml index.html ./
-COPY public ./public
-COPY src ./src
+COPY package.json pnpm-lock.yaml  ./
 
 RUN npm install -g pnpm && \
-    pnpm install && \
-    pnpm build
+    pnpm install
 
+COPY public ./public
+COPY vite.config.js index.html ./
+COPY src ./src
+
+RUN pnpm build
 
 FROM node:18-alpine
 
 WORKDIR /app
 
-COPY package.json ./
-COPY --from=builder /app/dist .
+RUN npm install -g pnpm
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/vite.config.js /app/package.json ./
 
 EXPOSE 3000
 
