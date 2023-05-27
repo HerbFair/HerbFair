@@ -2,6 +2,10 @@ import { Schema, model } from 'mongoose';
 
 const sellerSchema = new Schema(
   {
+    id: {
+      type: String,
+      required: true,
+    },
     firstName: {
       type: String,
       required: true,
@@ -45,6 +49,26 @@ const sellerSchema = new Schema(
     phoneNumber: {
       type: String,
       required: true,
+    },
+    isFirstLogin: {
+      type: Boolean,
+      required: false,
+      default: true,
+    },
+    isDeleted: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    secret: {
+      type: String,
+      required: false,
+      default: '',
+    },
+    choosenOTPMethod: {
+      type: String,
+      required: false,
+      default: '',
     },
   },
   {

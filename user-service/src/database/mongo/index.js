@@ -6,6 +6,7 @@ const logger = moduleLogger('Database-Connector');
 
 export const connectDatabase = () => {
   try {
+    mongoose.set('strictQuery', false);
     mongoose.connect(config.DB_URL, {
       keepAlive: true,
       socketTimeoutMS: 30000,
